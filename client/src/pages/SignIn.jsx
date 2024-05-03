@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
@@ -9,6 +10,17 @@ const SignIn = () => {
  const {loading, error: errorMessage} = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
+=======
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
+
+const SignIn = () => {
+  const [formData, setFormData] = useState({});
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+>>>>>>> 375c2f635e4e54352732bd16836370aca1bdad57
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -22,11 +34,20 @@ const SignIn = () => {
     e.preventDefault();
 
     if (!formData.email || !formData.password) {
+<<<<<<< HEAD
       return dispatch(signinFailure("All fields are required"));
     }
 
     try {
       dispatch(signinStart());
+=======
+      return setErrorMessage("All fields are required");
+    }
+
+    try {
+      setLoading(true);
+      setErrorMessage(null);
+>>>>>>> 375c2f635e4e54352732bd16836370aca1bdad57
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -37,6 +58,7 @@ const SignIn = () => {
       const data = await res.json();
 
       if (data.success === false) {
+<<<<<<< HEAD
         dispatch(signinFailure(data.message));
       }
       if (res.ok) {
@@ -45,6 +67,17 @@ const SignIn = () => {
       }
     } catch (error) {
       dispatch(signinFailure(error.message));
+=======
+        return setErrorMessage(data.message);
+      }
+      setLoading(false);
+      if (res.ok) {
+        navigate("/");
+      }
+    } catch (error) {
+      setErrorMessage(error.message);
+      setLoading(false);
+>>>>>>> 375c2f635e4e54352732bd16836370aca1bdad57
     }
   };
 
@@ -107,7 +140,11 @@ const SignIn = () => {
             </Button>
           </form>
           <div className="flex text-sm mt-5 justify-between">
+<<<<<<< HEAD
             <span>Dont have an account?</span>
+=======
+            <span>Don't have an account?</span>
+>>>>>>> 375c2f635e4e54352732bd16836370aca1bdad57
             <Link to="/sign-up" className="text-blue-500">
               Sign Up
             </Link>
