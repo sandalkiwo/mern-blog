@@ -68,7 +68,7 @@ const FooterCom = () => {
             year={new Date().getFullYear()}
           />
           <div className="flex gap-6 sm:mt-0 mt-4 sm:justify-center">
-            <Footer.Icon href="#" icon={BsFacebook} />
+            <Footer.Icon href="https://www.facebook.com/profile.php?id=100086014760771" icon={BsFacebook} />
             <Footer.Icon href="#" icon={BsTwitter} />
             <Footer.Icon href="#" icon={BsInstagram} />
             <Footer.Icon href="https://github.com/sandalkiwo" icon={BsGithub} />
