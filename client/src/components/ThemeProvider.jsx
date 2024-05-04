@@ -9,7 +9,7 @@ const ThemeProvider = ({children}) => {
         {children}
       </div>
     </div>
-  );
+  )
 };
 
 export default ThemeProvider;
