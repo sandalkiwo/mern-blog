@@ -74,7 +74,7 @@ export default function SignIn() {
                 placeholder="name@company.com"
                 id="email"
                 onChange={handleChange}
-                
+                required
               />
             </div>
             <div>
@@ -84,7 +84,7 @@ export default function SignIn() {
                 placeholder="**********"
                 id="password"
                 onChange={handleChange}
-                
+                required
               />
             </div>
             <Button
