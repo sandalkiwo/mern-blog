@@ -7,6 +7,7 @@ import {
   signinSuccess,
   signinFailure,
 } from "../redux/user/userSLice";
+import Oauth from "../components/Oauth";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
@@ -73,6 +74,7 @@ export default function SignIn() {
                 placeholder="name@company.com"
                 id="email"
                 onChange={handleChange}
+                
               />
             </div>
             <div>
@@ -82,6 +84,7 @@ export default function SignIn() {
                 placeholder="**********"
                 id="password"
                 onChange={handleChange}
+                
               />
             </div>
             <Button
@@ -98,6 +101,7 @@ export default function SignIn() {
                 "Sign In"
               )}
             </Button>
+            <Oauth />
           </form>
           <div className="flex gap-2 text-sm mt-5 justify-between">
             <span>Dont Have an account?</span>
