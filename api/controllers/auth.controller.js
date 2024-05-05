@@ -3,6 +3,8 @@ import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 
+
+// Daftar untuk Pengguna
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
 
@@ -33,6 +35,7 @@ export const signup = async (req, res, next) => {
   }
 };
 
+//  Login untuk Pengguna
 export const signin = async (req, res, next) => {
   const { email, password } = req.body;
 
