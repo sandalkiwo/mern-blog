@@ -148,7 +148,6 @@ const DashProfile = () => {
 
       const res = await fetch(`/api/user/delete/${currentUser._id}`, {
         method: "DELETE",
-        k,
       });
       const data = await res.json();
       if (!res.ok) {
@@ -252,7 +251,7 @@ const DashProfile = () => {
           outline
           disabled={loading || imageFileUploading}
         >
-          { loading ? "Loading...": "Update" }
+          {loading ? "Loading..." : "Update"}
         </Button>
         {currentUser.isAdmin && (
           <Link to={"/create-post"}>
