@@ -39,7 +39,7 @@ const DashSIdebar = () => {
     <Sidebar className="w-full md:w-56">
       <Sidebar.Items>
         <Sidebar.ItemGroup>
-          <Link to="/dashboard?tab=profile">
+          <Link to="/dashboard?tab=profile"> k
             <Sidebar.Item
               active={tab === "profile"}
               icon={HiUser}
