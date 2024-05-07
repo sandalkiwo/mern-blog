@@ -40,9 +40,9 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
           content: editedContent,
         }),
       });
-      if(res.ok) {
+      if (res.ok) {
         setIsEditing(false);
-        onEdit(comment, editedContent)
+        onEdit(comment, editedContent);
       }
     } catch (error) {
       console.log(error.message);
@@ -117,13 +117,22 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
               </p>
               {currentUser &&
                 (currentUser._id === comment.userId || currentUser.isAdmin) && (
-                  <button
-                    type="button"
-                    onClick={handleEdit}
-                    className="text-gray-400 hover:text-blue-500"
-                  >
-                    Edit
-                  </button>
+                  <>
+                    <button
+                      type="button"
+                      onClick={handleEdit}
+                      className="text-gray-400 hover:text-blue-500"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onDelete(comment._id)}
+                      className="text-gray-400 hover:text-blue-500"
+                    >
+                      Delete
+                    </button>
+                  </>
                 )}
             </div>
           </>
