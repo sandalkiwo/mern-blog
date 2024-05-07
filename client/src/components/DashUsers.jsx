@@ -51,8 +51,24 @@ const DashUsers = () => {
   };
 
   const handleDeleteUser = async () => {
-    
-  }
+    try {
+      const res = await fetch(`/api/user/delete/${userIdToDelete}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        setUsers((preve) =>
+          preve.filter((user) => user._id !== userIdToDelete)
+        );
+        setShowModel(false);
+      } else {
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
@@ -82,7 +98,13 @@ const DashUsers = () => {
                   </Table.Cell>
                   <Table.Cell>{user.username}</Table.Cell>
                   <Table.Cell>{user.email}</Table.Cell>
-                  <Table.Cell>{user.isAdmin ? (<FaCheck className="text-green-500"/>) : (<FaTimes className="text-red-500"/>)}</Table.Cell>
+                  <Table.Cell>
+                    {user.isAdmin ? (
+                      <FaCheck className="text-green-500" />
+                    ) : (
+                      <FaTimes className="text-red-500" />
+                    )}
+                  </Table.Cell>
                   <Table.Cell>
                     <span
                       onClick={() => {
@@ -122,7 +144,7 @@ const DashUsers = () => {
           <div className="text-center">
             <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Are you sure you want to delete your User?
+              Are you sure you want to delete your post?
             </h3>
             <div className="flex justify-center gap-4">
               <Button color="failure" onClick={handleDeleteUser} outline>
