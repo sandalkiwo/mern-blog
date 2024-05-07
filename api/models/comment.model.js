@@ -14,7 +14,7 @@ const commrntSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    like: {
+    likes: {
       type: Array,
       default: [],
     },
