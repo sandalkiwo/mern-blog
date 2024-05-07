@@ -10,7 +10,7 @@ import cookieParser from "cookie-parser";
 dotenv.config();
 
 mongoose
-  .connect(process.env.MONGO)
+  .connect(process.env.MONGO_DB)
   .then(() => {
     console.log("MongoDB Is Connected!");
   })
