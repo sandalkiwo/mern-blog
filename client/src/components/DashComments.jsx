@@ -4,21 +4,22 @@ import { Button, Modal, Table } from "flowbite-react";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
-const DashUsers = () => {
+const DashComments = () => {
   const { currentUser } = useSelector((state) => state.user);
-  const [users, setUsers] = useState([]);
+  const [comments, setComments] = useState([]);
   const [showMore, setShowMore] = useState(true);
   const [showModel, setShowModel] = useState(false);
-  const [userIdToDelete, setUserIdToDelete] = useState("");
+  const [commentIdToDelete, setCommentIdToDelete] = useState("");
+
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchComments = async () => {
       try {
-        const res = await fetch(`/api/user/getusers`);
+        const res = await fetch(`/api/comment/getcomments`);
         const data = await res.json();
         if (res.ok) {
-          setUsers(data.users);
-          if (data.users.length < 9) {
+          setComments(data.comments);
+          if (data.comments.length < 9) {
             setShowMore(false);
           }
         }
@@ -27,19 +28,19 @@ const DashUsers = () => {
       }
     };
     if (currentUser.isAdmin) {
-      fetchUsers();
+      fetchComments();
     }
   }, [currentUser._id]);
 
   const handleShowMore = async () => {
-    const startIndex = users.length;
+    const startIndex = comments.length;
 
     try {
-      const res = await fetch(`/api/user/getusers?startIndex=${startIndex}`);
+      const res = await fetch(`/api/comment/getcomments?startIndex=${startIndex}`);
       const data = await res.json();
       if (res.ok) {
-        setUsers((preve) => [...preve, ...data.users]);
-        if (data.users.length < 9) {
+        setComments((preve) => [...preve, ...data.comments]);
+        if (data.comments.length < 9) {
           setShowMore(false);
         }
       }
@@ -48,16 +49,17 @@ const DashUsers = () => {
     }
   };
 
-  const handleDeleteUser = async () => {
+  const handleDeleteComment = async () => {
+    setShowModel(false)
     try {
-      const res = await fetch(`/api/user/delete/${userIdToDelete}`, {
+      const res = await fetch(`/api/comment/deleteComment/${commentIdToDelete}`, {
         method: "DELETE",
       });
       const data = await res.json();
 
       if (res.ok) {
-        setUsers((preve) =>
-          preve.filter((user) => user._id !== userIdToDelete)
+        setComments((preve) =>
+          preve.filter((user) => user._id !== commentIdToDelete)
         );
         setShowModel(false);
       } else {
@@ -70,44 +72,37 @@ const DashUsers = () => {
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
-      {currentUser.isAdmin && users.length > 0 ? (
+      {currentUser.isAdmin && comments.length > 0 ? (
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>
-              <Table.HeadCell>Date created</Table.HeadCell>
-              <Table.HeadCell>User image</Table.HeadCell>
-              <Table.HeadCell>Username</Table.HeadCell>
-              <Table.HeadCell>Email</Table.HeadCell>
-              <Table.HeadCell>Admin</Table.HeadCell>
+              <Table.HeadCell>Date Updated</Table.HeadCell>
+              <Table.HeadCell>Comment Content</Table.HeadCell>
+              <Table.HeadCell>Number Of Likes</Table.HeadCell>
+              {/* <Table.HeadCell>Username</Table.HeadCell> */}
+              <Table.HeadCell>postId</Table.HeadCell>
+              <Table.HeadCell>User Id</Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
             </Table.Head>
-            {users.map((user) => (
-              <Table.Body className="divide-y" key={user._id}>
+            {comments.map((comment) => (
+              <Table.Body className="divide-y" key={comment._id}>
                 <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                   <Table.Cell>
-                    {new Date(user.createdAt).toLocaleDateString()}
+                    {new Date(comment.updatedAt).toLocaleDateString()}
                   </Table.Cell>
                   <Table.Cell>
-                    <img
-                      src={user.profilePicture}
-                      alt={user.username}
-                      className="w-10 h-10 object-cover bg-gray-500 rounded-full"
-                    />
+                    {comment.content}
                   </Table.Cell>
-                  <Table.Cell>{user.username}</Table.Cell>
-                  <Table.Cell>{user.email}</Table.Cell>
+                  <Table.Cell>{comment.numberOfLikes}</Table.Cell>
+                  <Table.Cell>{comment.postId}</Table.Cell>
                   <Table.Cell>
-                    {user.isAdmin ? (
-                      <FaCheck className="text-green-500" />
-                    ) : (
-                      <FaTimes className="text-red-500" />
-                    )}
+                    {comment.userId}
                   </Table.Cell>
                   <Table.Cell>
                     <span
                       onClick={() => {
                         setShowModel(true);
-                        setUserIdToDelete(user._id);
+                        setCommentIdToDelete(comment._id);
                       }}
                       className="font-medium text-red-500 cursor-pointer hover:underline"
                     >
@@ -129,7 +124,7 @@ const DashUsers = () => {
           )}
         </>
       ) : (
-        <p>You Have Not Users Yet!</p>
+        <p>You Have Not Comments Yet!</p>
       )}
       <Modal
         show={showModel}
@@ -142,10 +137,10 @@ const DashUsers = () => {
           <div className="text-center">
             <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Are you sure you want to delete your post?
+              Are you sure you want to delete your comment?
             </h3>
             <div className="flex justify-center gap-4">
-              <Button color="failure" onClick={handleDeleteUser} outline>
+              <Button color="failure" onClick={handleDeleteComment} outline>
                 Yes, I'm sure
               </Button>
               <Button color="gray" onClick={() => setShowModel(false)} outline>
@@ -159,4 +154,4 @@ const DashUsers = () => {
   );
 };
 
-export default DashUsers;
+export default DashComments;
